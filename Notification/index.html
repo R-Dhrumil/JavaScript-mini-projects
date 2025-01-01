@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snap Notification</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/dad78bc247.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="buttons">
+        <button onclick="showToast(Successmsg)">Success</button>
+        <button onclick="showToast(Errormsg)">Error</button>
+        <button onclick="showToast(Invalidmsg)">Invalid</button>
+    </div>
+
+    <div id="toastbox"></div>
+
+    <script>
+        let toastbox = document.getElementById("toastbox")
+        let Successmsg = '<i class="fa-solid fa-circle-check"></i> Submitted Successfully'
+        let Errormsg = ' <i class="fa-solid fa-circle-xmark"></i> There is something error'
+        let Invalidmsg = '<i class="fa-solid fa-circle-exclamation"></i> Invalid input , check again'
+        function showToast(msg) {
+           let toast =  document.createElement("div");
+            toast.classList.add("toast")
+            toast.innerHTML = msg
+            toastbox.appendChild(toast)
+
+            if (msg.includes('error')) {
+                toast.classList.add('red')
+            }
+            else if (msg.includes('Invalid')) {
+                toast.classList.add('yellow')
+            }
+
+            setTimeout(() => {
+                toast.remove()
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <title>Stop watch</title>
+</head>
+<body>
+    <p id="watch"></p>
+    <button type="button" onclick="Start()">Start</button>
+    <button type="button" onclick="Stop()">Stop</button>
+    <button type="reset" onclick="reset()">Reset</button>
+    
+    <script>
+        let watch = document.getElementById("watch");
+        let min = 0;
+        let hour = 0;
+        let second = 0;
+        let timer = null;
+        function display() {
+            watch.innerHTML = hour.toString().padStart(2, '0') + ":" + min.toString().padStart(2, '0') + ":" + second.toString().padStart(2, '0');
+        }
+        function Start() {
+            timer = setInterval(() => {
+                 display();
+                 
+                 second++;
+                 if (second === 60) {
+                     min++;
+                     second = 0;
+                    }else if (min === 60) {
+                        hour++;
+                        min = 0;
+                    }
+                  watch.innerHTML =  watch.innerHTML;
+                }, 1000);
+                timer = 0;
+            }
+
+            function Stop() {
+                if (timer != null) {
+                    clearInterval(timer);
+                    
+                }
+            }
+
+            function reset() {
+                 min = 0;
+                hour = 0;
+                second = 0;
+            }
+    </script>
+</body>
+</html>
