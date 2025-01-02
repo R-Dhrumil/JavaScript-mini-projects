@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <div id="left">
@@ -17,8 +19,61 @@
         <div id="right"></div>
     </div>
 
-
+    //From ChatGPT to add some improvements and learn
     <script>
+        let lists = document.getElementsByClassName("list");
+        let leftBox = document.getElementById("left");
+        let rightBox = document.getElementById("right");
+        let selected = null;
+
+        for (let list of lists) {
+            list.addEventListener("dragstart", function (e) {
+                selected = e.target; // Store the selected element
+            });
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault(); // Prevent default behavior to allow dropping
+            const afterElement = getDragAfterElement(e.target, e.clientY);
+            if (afterElement == null) {
+                e.target.appendChild(selected); // Append to the end if no element below
+            } else {
+                e.target.insertBefore(selected, afterElement); // Insert before the element below
+            }
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll(".list:not(.dragging)")];
+            return draggableElements.reduce(
+                (closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                },
+                { offset: Number.NEGATIVE_INFINITY }
+            ).element;
+        }
+
+        leftBox.addEventListener("dragover", handleDragOver);
+        rightBox.addEventListener("dragover", handleDragOver);
+
+        leftBox.addEventListener("drop", function (e) {
+            handleDragOver(e);
+            selected = null; // Clear the selected element
+        });
+
+        rightBox.addEventListener("drop", function (e) {
+            handleDragOver(e);
+            selected = null; // Clear the selected element
+        });
+    </script>
+
+
+    <!-- <script>
         let lists = document.getElementsByClassName("list")
         let leftBox = document.getElementById("left")
         let rightBox = document.getElementById("right")
@@ -46,6 +101,7 @@
                 });
             })
         }
-    </script>
+    </script> -->
 </body>
+
 </html>
